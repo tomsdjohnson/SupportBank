@@ -1,7 +1,5 @@
 package training.supportbank;
 
-import java.time.LocalDate;
-
 public class Transaction {
 
     private String from;
