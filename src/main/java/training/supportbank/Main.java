@@ -1,4 +1,5 @@
 package training.supportbank;
+//everything we need to import//
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,52 +12,53 @@ import java.util.regex.Pattern;
 public class Main {
     public static void main(String args[]) throws IOException {
 
+        //gets and converts file into string//
         Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\Transactions2014.csv" );
         byte[] bytes = Files.readAllBytes(path);
         String IOU =  new String(bytes);
 
-        Pattern p = Pattern.compile("(\\d*\\/\\d*\\/\\d*),(\\w+(\\s\\w*)?),(\\w+(\\s\\w*)?),(\\w+(\\s\\w*)?),(\\d*(.\\d\\d?)?)");
+        //creates search algorithm that gets individual details//
+        Pattern p = Pattern.compile("(\\d\\d\\/\\d\\d\\/\\d{4}),([\\w\\s]+),([\\w\\s]+),([\\w\\s-]+),([0-9.]+)");
         Matcher m = p.matcher(IOU);
 
-
+        //create array and hashMap to store the transactions and people//
         ArrayList<Transaction> list = new ArrayList<>();
         HashMap<String, Person> hm = new HashMap<>();
 
+        //while loop until all details have been found//
         while(m.find()) {
 
+            //creating variables for all the details//
             String date = m.group(1);
             String from = m.group(2);
-            String to = m.group(4);
-            String amount = m.group(8);
-            String reason = m.group(6);
+            String to = m.group(3);
+            String amount = m.group(5);
+            String reason = m.group(4);
 
-            System.out.println("Adding transactions...");
-            list.add(new Transaction(from, date, to, reason, amount));
+            //creating a variable for the transaction//
+            Transaction trans = new Transaction(from, date, to, reason, amount);
 
-            if (hm.containsKey(from)) {
+            //ads trans to array list//
+            list.add(trans);
 
-            }else {
+            //creates new person if they don't exist//
+            if (!hm.containsKey(from)) {
                 hm.put(from, new Person(from));
             }
-
-            if (hm.containsKey(to)) {
-
-            }else {
+            if (!hm.containsKey(to)) {
                 hm.put(to, new Person(to));
             }
+            //passes the trans over to the person object//
+            hm.get(from).giveTransaction(trans);
+            hm.get(to).giveTransaction(trans);
         }
 
-        System.out.println(list);
+        //iterates through hashMap and outputs people's names and wallet
+        for (String i : hm.keySet()) {
+            System.out.printf("%s %.2f\n", hm.get(i).getName(), hm.get(i).getWallet());
+            hm.get(i);
 
-
-
-        //Person employee = new Person("from");
-        //System.out.println(employee.getWallet());
-        //System.out.println(employee.getName());
-        //employee.updateWallet(10.00);
-        //System.out.println(employee.getWallet());
-
-
+        }
 
     }
 }
