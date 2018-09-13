@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,17 +24,47 @@ public class Main {
 
     //the main class//
     public static void main(String args[]) throws IOException {
-        
+
+
+
+
+        //option menu for choosing what transactions to see//
+        Boolean test = false;
+        System.out.println("Which files would you like to extract?\n" +
+                "2013 Transactions [1]\n2014 Transactions [2]\n2015 Transactions [3]");
+        Scanner scanner = new Scanner(System.in);
+        String choice = scanner.nextLine();
+        String fileLocation = " ";
+
+        //checks what user input//
+        while(!test) {
+            if (choice.equals("1")) {
+                fileLocation = "Transactions2013.json";
+                test = true;
+            } else if (choice.equals("2")) {
+                fileLocation = "Transactions2014.csv";
+                test = true;
+            } else if (choice.equals("3")) {
+                fileLocation = "DodgyTransactions2015.csv";
+                test = true;
+            } else {
+                System.out.println("Your input is not valid! You can only enter a [1], [2] and [3]\nPlease Try again:");
+                scanner = new Scanner(System.in);
+                choice = scanner.nextLine();
+            }
+        }
+
+
         //gets and converts file into string//
         LOGGER.info("About toAccount read the file");
-        Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\Transactions2013.json" );
+        Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\" + fileLocation);
         byte[] bytes = Files.readAllBytes(path);
         String IOU =  new String(bytes);
 
 
 
         HashMap<String, Person> hm;
-        if (IOU != IOU) {
+        if (fileLocation != "Transactions2013.json") {
             //creates an array of transactions and then puts it in person//
             hm = Main.createPeople(Main.getList(IOU));
         } else {
