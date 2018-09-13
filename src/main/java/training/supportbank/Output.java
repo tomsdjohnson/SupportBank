@@ -1,12 +1,12 @@
 package training.supportbank;
-//everything we need to import//
+//everything we need toAccount import//
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Output {
 
-    //initialise a HashMap and boolean to be used later//
+    //initialise a HashMap and boolean toAccount be used later//
     public Boolean test = false;
     public HashMap<String, Person> hm = new HashMap<>();
 
@@ -45,12 +45,12 @@ public class Output {
                 }
                 test = true;
 
-                //checks which person they want to print out and then prints them out//
+                //checks which person they want toAccount print out and then prints them out//
             } else if (choice.equals("2")) {
                 while(!test) {
 
-                    //user enters who they'd like to see//
-                    System.out.println("Who's transactions would you like to see?");
+                    //user enters who they'd like toAccount see//
+                    System.out.println("Who's transactions would you like toAccount see?");
                     scanner = new Scanner(System.in);
                     String person = scanner.nextLine();
 
@@ -58,8 +58,8 @@ public class Output {
                     if (hm.containsKey(person)) {
                         ArrayList<Transaction> trans = hm.get(person).getTransaction();
                         for (int i = 0; i < trans.size(); i++) {
-                            System.out.println(trans.get(i).getDate() + " - " + trans.get(i).getTo() + " owes " + trans.get(i).getFrom()
-                                    + " £" + trans.get(i).getAmount() + " - Reason: " + trans.get(i).getReason());
+                            System.out.println(trans.get(i).getDate() + " - " + trans.get(i).getToAccount() + " owes " + trans.get(i).getFromAccount()
+                                    + " £" + trans.get(i).getAmount() + " - Reason: " + trans.get(i).getNarrative());
                         }
                         test = true;
 

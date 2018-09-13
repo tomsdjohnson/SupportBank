@@ -9,18 +9,18 @@ import java.util.regex.Pattern;
 public class Transaction {
 
     //initialising variables//
-    private String from;
-    private String to;
-    private LocalDate date;
-    private String reason;
-    private double amount;
+    public String fromAccount;
+    public String toAccount;
+    public LocalDate date;
+    public String narrative;
+    public double amount;
 
     //constructor that take all the values that were passed through//
     public Transaction(String newFrom, String newDate, String newTo, String newReason, String newAmount) {
 
-        from = newFrom;
-        to = newTo;
-        reason = newReason;
+        fromAccount = newFrom;
+        toAccount = newTo;
+        narrative = newReason;
 
         //Makes sure date is added in a correct format//
         if (Pattern.matches("[0-9]{2}\\/[0-9]{2}\\/[0-9]{4}", newDate)){
@@ -36,21 +36,21 @@ public class Transaction {
             Error.amountError(newAmount);
         }
     }
-    //returns who the transaction was from//
-    public String getFrom() {
-        return from;
+    //returns who the transaction was fromAccount//
+    public String getFromAccount() {
+        return fromAccount;
     }
-    //returns who the transaction was to//
-    public String getTo() {
-        return to;
+    //returns who the transaction was toAccount//
+    public String getToAccount() {
+        return toAccount;
     }
     //returns the amount the transaction was for//
     public double getAmount() {
         return (amount);
     }
-    //returns the reason for the transaction//
-    public String getReason() {
-        return reason;
+    //returns the narrative for the transaction//
+    public String getNarrative() {
+        return narrative;
     }
     //returns the date this transaction happened//
     public LocalDate getDate() {

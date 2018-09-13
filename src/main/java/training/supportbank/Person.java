@@ -5,7 +5,7 @@ import java.util.ArrayList;
 //created new object that stores their wallet, name and transaction//
 public class Person {
 
-    //initialise variables and create an ArrayList to store the transaction//
+    //initialise variables and create an ArrayList toAccount store the transaction//
     private String name;
     public ArrayList<Transaction> transactions = new ArrayList<>();
     public double wallet;
@@ -30,8 +30,8 @@ public class Person {
         //for loop goes through all the transactions//
         for(int i=0; i < transactions.size(); i++){
 
-            //see's if money should be added or subtracted from the value//
-            if( transactions.get(i).getFrom().equals(name)) {
+            //see's if money should be added or subtracted fromAccount the value//
+            if( transactions.get(i).getFromAccount().equals(name)) {
                 wallet = wallet + transactions.get(i).getAmount();
             } else {
                 wallet = wallet - transactions.get(i).getAmount();
@@ -41,7 +41,7 @@ public class Person {
         return wallet;
     }
 
-    //adds a transaction to the person//
+    //adds a transaction toAccount the person//
     public void giveTransaction(Transaction newTrans) {
         transactions.add(newTrans);
     }
