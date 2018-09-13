@@ -20,16 +20,20 @@ public class Main {
 
         //gets and converts file into string//
         LOGGER.info("About to read the file");
-        Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\Transactions2014.csv" );
+        Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\DodgyTransactions2015.csv" );
         byte[] bytes = Files.readAllBytes(path);
         String IOU =  new String(bytes);
 
+
         //creates search algorithm that gets individual details//
-        Pattern p = Pattern.compile("(\\d\\d\\/\\d\\d\\/\\d{4}),([\\w\\s]+),([\\w\\s]+),([\\w\\s-]+),([0-9.]+)");
+        Pattern p = Pattern.compile("(.*),(.*),(.*),(.*),(.*)");
         Matcher m = p.matcher(IOU);
 
         //create a hashMap to store the people//
         HashMap<String, Person> hm = new HashMap<>();
+
+        //this finds the first line of the file so it ignores later on
+        m.find();
 
         //while loop until all details have been found//
         while(m.find()) {

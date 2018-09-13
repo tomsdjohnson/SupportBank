@@ -1,22 +1,39 @@
 package training.supportbank;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
+
 //new object keeps track of transactions//
 public class Transaction {
 
     //initialising variables//
     private String from;
     private String to;
-    private String date;
+    private LocalDate date;
     private String reason;
     private double amount;
 
     //constructor that take all the values that were passed through//
-    public Transaction(String newFrom, String newTo, String newDate, String newReason, String newAmount) {
+    public Transaction(String newFrom, String newDate, String newTo, String newReason, String newAmount) {
+
         from = newFrom;
         to = newTo;
-        date = newDate;
         reason = newReason;
-        amount = Double.parseDouble(newAmount);
+
+        //Makes sure date is added in a correct format//
+        if (Pattern.matches("[0-9]{2}\\/[0-9]{2}\\/[0-9]{4}", newDate)){
+            date = LocalDate.parse(newDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        } else {
+            System.out.println(newDate);
+        }
+
+        //Makes sure amount is number before assigning variable//
+        if (Pattern.matches("[0-9]+.?(|[0-9]{1,2})?", newAmount)) {
+            amount = Double.parseDouble(newAmount);
+        } else {
+            System.out.println("AMOUNT ERROR!!!!!!!!!!");
+        }
     }
     //returns who the transaction was from//
     public String getFrom() {
@@ -35,7 +52,7 @@ public class Transaction {
         return reason;
     }
     //returns the date this transaction happened//
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 }

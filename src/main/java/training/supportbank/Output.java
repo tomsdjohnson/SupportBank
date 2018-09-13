@@ -13,8 +13,7 @@ public class Output {
     //constructor displays message once
     public Output() {
         //Welcomes the person and gives them their options//
-        System.out.println("WELCOME!\nPlease enter the number of your choice!\n\n" +
-                "List of how much everyone is owed/owes [1]\nList an individuals transactions [2]");
+        System.out.println("List of how much everyone is owed/owes [1]\nList an individuals transactions [2]");
     }
 
     //creating new class that can be called//
@@ -51,7 +50,7 @@ public class Output {
                     if (hm.containsKey(person)) {
                         ArrayList<Transaction> trans = hm.get(person).getTransaction();
                         for (int i = 0; i < trans.size(); i++) {
-                            System.out.println(trans.get(i).getTo() + " - " + trans.get(i).getDate() + " owes " + trans.get(i).getFrom()
+                            System.out.println(trans.get(i).getDate() + " - " + trans.get(i).getTo() + " owes " + trans.get(i).getFrom()
                                     + " £" + trans.get(i).getAmount() + " - Reason: " + trans.get(i).getReason());
                         }
                         test = true;
