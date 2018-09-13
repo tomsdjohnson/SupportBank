@@ -12,7 +12,15 @@ public class Output {
 
     //constructor displays message once
     public Output() {
-        //Welcomes the person and gives them their options//
+
+        //checks if there have been any errors if so closes program//
+        if (Error.getErrors()) {
+            System.out.println("*******WARNING ERRORS ABOVE PLEASE READ*******\n" +
+                    "****PROGRAM WILL NOW EXIT PLEASE FIX ERRORS***");
+            System.exit(0);
+        }
+
+        //welcomes the person and gives them their options//
         System.out.println("List of how much everyone is owed/owes [1]\nList an individuals transactions [2]");
     }
 

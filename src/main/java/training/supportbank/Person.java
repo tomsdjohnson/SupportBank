@@ -27,7 +27,7 @@ public class Person {
     //returns and calculates how much owed/owe//
     public double getWallet() {
 
-        //for loop goes through all the transactions
+        //for loop goes through all the transactions//
         for(int i=0; i < transactions.size(); i++){
 
             //see's if money should be added or subtracted from the value//
@@ -41,6 +41,7 @@ public class Person {
         return wallet;
     }
 
+    //adds a transaction to the person//
     public void giveTransaction(Transaction newTrans) {
         transactions.add(newTrans);
     }

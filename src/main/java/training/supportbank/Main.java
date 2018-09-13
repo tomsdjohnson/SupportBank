@@ -20,7 +20,7 @@ public class Main {
 
         //gets and converts file into string//
         LOGGER.info("About to read the file");
-        Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\DodgyTransactions2015.csv" );
+        Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\Transactions2014.csv" );
         byte[] bytes = Files.readAllBytes(path);
         String IOU =  new String(bytes);
 
@@ -58,6 +58,7 @@ public class Main {
             //passes the trans over to the person object//
             hm.get(from).giveTransaction(trans);
             hm.get(to).giveTransaction(trans);
+
         }
 
         //prints all the outputs and give the users their choice//

@@ -1,5 +1,6 @@
 package training.supportbank;
 
+//import everything
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
@@ -25,14 +26,14 @@ public class Transaction {
         if (Pattern.matches("[0-9]{2}\\/[0-9]{2}\\/[0-9]{4}", newDate)){
             date = LocalDate.parse(newDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         } else {
-            System.out.println(newDate);
+            Error.dateError(newDate);
         }
 
         //Makes sure amount is number before assigning variable//
         if (Pattern.matches("[0-9]+.?(|[0-9]{1,2})?", newAmount)) {
             amount = Double.parseDouble(newAmount);
         } else {
-            System.out.println("AMOUNT ERROR!!!!!!!!!!");
+            Error.amountError(newAmount);
         }
     }
     //returns who the transaction was from//
