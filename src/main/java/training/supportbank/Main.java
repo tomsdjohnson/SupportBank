@@ -1,19 +1,25 @@
 package training.supportbank;
 //everything we need to import//
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
+
+    //needed for the logger system to work//
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    //the main class//
     public static void main(String args[]) throws IOException {
 
         //gets and converts file into string//
+        LOGGER.info("About to read the file");
         Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\Transactions2014.csv" );
         byte[] bytes = Files.readAllBytes(path);
         String IOU =  new String(bytes);
@@ -22,8 +28,7 @@ public class Main {
         Pattern p = Pattern.compile("(\\d\\d\\/\\d\\d\\/\\d{4}),([\\w\\s]+),([\\w\\s]+),([\\w\\s-]+),([0-9.]+)");
         Matcher m = p.matcher(IOU);
 
-        //create array and hashMap to store the transactions and people//
-        ArrayList<Transaction> list = new ArrayList<>();
+        //create a hashMap to store the people//
         HashMap<String, Person> hm = new HashMap<>();
 
         //while loop until all details have been found//
@@ -39,9 +44,6 @@ public class Main {
             //creating a variable for the transaction//
             Transaction trans = new Transaction(from, date, to, reason, amount);
 
-            //ads trans to array list//
-            list.add(trans);
-
             //creates new person if they don't exist//
             if (!hm.containsKey(from)) {
                 hm.put(from, new Person(from));
@@ -53,55 +55,9 @@ public class Main {
             hm.get(from).giveTransaction(trans);
             hm.get(to).giveTransaction(trans);
         }
-        //Welcomes the person and gives them their options//
-        System.out.println("WELCOME!\nPlease enter the number of your choice!\n\n" +
-                "List of how much everyone is owed/owes [1]\nList an individuals transactions [2]");
 
-        //create test which tells weather to stay in the while loop or not//
-        Boolean test = false;
-
-        //start of the while loop//
-        while(!test) {
-
-            //reads what user wrote on console//
-            Scanner scanner = new Scanner(System.in);
-            String choice = scanner.nextLine();
-
-            //iterates through hashMap and outputs people's names and wallet//
-            if (choice.equals("1")) {
-                for (String i : hm.keySet()) {
-                    System.out.printf("%s %.2f\n", hm.get(i).getName(), hm.get(i).getWallet());
-                    hm.get(i);
-                }
-                test = true;
-
-            //checks which person they want to print out and then prints them out//
-            } else if (choice.equals("2")) {
-                while(!test) {
-
-                    //user enters who they'd like to see//
-                    System.out.println("Who's transactions would you like to see?");
-                    scanner = new Scanner(System.in);
-                    String person = scanner.nextLine();
-
-                    //displays all the transactions for a certain person
-                    if (hm.containsKey(person)) {
-                        ArrayList<Transaction> trans = hm.get(person).getTransaction();
-                        for (int i = 0; i < trans.size(); i++) {
-                            System.out.println(trans.get(i).getTo() + " - " + trans.get(i).getDate() + " owes " + trans.get(i).getFrom()
-                                    + " £" + trans.get(i).getAmount() + " - Reason: " + trans.get(i).getReason());
-                        }
-                        test = true;
-
-                    //if user doesn't put valid name lets them try again//
-                    } else {
-                        System.out.println("That person does not exist!\nPlease Try again");
-                    }
-                }
-            //if option is not valid lets user try again//
-            } else {
-                System.out.println("Your input is not valid! You can only enter a [1] or [2]\nPlease Try again:");
-            }
-        }
+        //prints all the outputs and give the users their choice//
+        Output output = new Output();
+        output.printOutputs(hm);
     }
 }
