@@ -19,6 +19,11 @@ public class Person {
     public String getName() {
         return  name;
     }
+
+    public ArrayList<Transaction> getTransaction() {
+        return transactions;
+    }
+
     //returns and calculates how much owed/owe//
     public double getWallet() {
 
