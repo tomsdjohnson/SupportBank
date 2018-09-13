@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,7 +23,7 @@ public class Main {
 
     //the main class//
     public static void main(String args[]) throws IOException {
-
+        
         //gets and converts file into string//
         LOGGER.info("About toAccount read the file");
         Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\Transactions2013.json" );
@@ -32,14 +33,18 @@ public class Main {
 
 
         HashMap<String, Person> hm;
-        if () {
+        if (IOU != IOU) {
+            //creates an array of transactions and then puts it in person//
             hm = Main.createPeople(Main.getList(IOU));
         } else {
+            //Creates an Array with all transactions and then converted into arrayList and then sent to createPerson//
             Gson gson = buildGson();
-            Transaction transaction = gson.fromJson(IOU, Transaction.class);
-            hm = Main.createPeople(transaction);
+            Transaction[] transaction = gson.fromJson(IOU, Transaction[].class);
+            ArrayList<Transaction> transactionList = new ArrayList<>(Arrays.asList(transaction));
+            hm = Main.createPeople(transactionList);
         }
 
+        //outputs all the results//
         Output output = new Output();
         output.printOutputs(hm);
         }
