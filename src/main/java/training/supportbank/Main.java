@@ -29,7 +29,7 @@ public class Main {
     public static void main(String args[]) throws IOException, ParserConfigurationException, SAXException {
 
         XmlReader.readXml();
-
+//
         //gets the file the person wants to extract//
         Select select = new Select();
         String fileLocation = select.getChoice();
