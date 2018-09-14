@@ -137,7 +137,7 @@ public class Main {
         //creates the hashMap that will store the data//
         HashMap<String, Person> hm = new HashMap<>();
 
-        for (int i = 0; i < list.size()- 1; i++) {
+        for (int i = 0; i < list.size(); i++) {
 
             //gets the two people's names involved in the transaction//
             String  from = list.get(i).getFromAccount();
