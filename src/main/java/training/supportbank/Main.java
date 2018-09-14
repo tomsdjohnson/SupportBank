@@ -1,10 +1,14 @@
 package training.supportbank;
+
 //everything we need toAccount import//
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,7 +17,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,36 +26,14 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
 
     //the main class//
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException, ParserConfigurationException, SAXException {
 
+        XmlReader.readXml();
 
+        //gets the file the person wants to extract//
+        Select select = new Select();
+        String fileLocation = select.getChoice();
 
-
-        //option menu for choosing what transactions to see//
-        Boolean test = false;
-        System.out.println("Which files would you like to extract?\n" +
-                "2013 Transactions [1]\n2014 Transactions [2]\n2015 Transactions [3]");
-        Scanner scanner = new Scanner(System.in);
-        String choice = scanner.nextLine();
-        String fileLocation = " ";
-
-        //checks what user input//
-        while(!test) {
-            if (choice.equals("1")) {
-                fileLocation = "Transactions2013.json";
-                test = true;
-            } else if (choice.equals("2")) {
-                fileLocation = "Transactions2014.csv";
-                test = true;
-            } else if (choice.equals("3")) {
-                fileLocation = "DodgyTransactions2015.csv";
-                test = true;
-            } else {
-                System.out.println("Your input is not valid! You can only enter a [1], [2] and [3]\nPlease Try again:");
-                scanner = new Scanner(System.in);
-                choice = scanner.nextLine();
-            }
-        }
 
 
         //gets and converts file into string//
@@ -60,8 +41,6 @@ public class Main {
         Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\" + fileLocation);
         byte[] bytes = Files.readAllBytes(path);
         String IOU =  new String(bytes);
-
-
 
         HashMap<String, Person> hm;
         if (fileLocation != "Transactions2013.json") {
@@ -81,9 +60,9 @@ public class Main {
         }
 
 
-
     //loading and converting fromAccount Json into java objects//
     private static Gson buildGson() {
+
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (jsonElement, type, jsonDeserializationContext) ->
                 LocalDate.parse(jsonElement.getAsString())
