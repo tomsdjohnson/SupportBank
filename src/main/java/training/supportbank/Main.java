@@ -7,12 +7,12 @@ import com.google.gson.JsonDeserializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,32 +26,35 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger();
 
     //the main class//
-    public static void main(String args[]) throws IOException, ParserConfigurationException, SAXException {
+    public static void main(String args[]) throws IOException, ParserConfigurationException, SAXException, ParseException {
 
-        XmlReader.readXml();
-//
         //gets the file the person wants to extract//
         Select select = new Select();
         String fileLocation = select.getChoice();
-
-
 
         //gets and converts file into string//
         LOGGER.info("About toAccount read the file");
         Path path = Paths.get("C:\\Work\\Training\\SupportBank-Java-Template\\" + fileLocation);
         byte[] bytes = Files.readAllBytes(path);
-        String IOU =  new String(bytes);
+        String IOU = new String(bytes);
 
+        //creates hashMap where people will be stored//
         HashMap<String, Person> hm;
-        if (fileLocation != "Transactions2013.json") {
-            //creates an array of transactions and then puts it in person//
-            hm = Main.createPeople(Main.getList(IOU));
-        } else {
+
+        if (fileLocation.equals("Transactions2013.json")) {
             //Creates an Array with all transactions and then converted into arrayList and then sent to createPerson//
             Gson gson = buildGson();
             Transaction[] transaction = gson.fromJson(IOU, Transaction[].class);
             ArrayList<Transaction> transactionList = new ArrayList<>(Arrays.asList(transaction));
             hm = Main.createPeople(transactionList);
+
+        }else if(fileLocation.equals("Transactions2012.xml")){
+            //calls XmlReader if they have called the Xml file
+            hm = Main.createPeople(XmlReader.readXml(IOU));
+
+        }else {
+            //creates an array of transactions and then puts it in person//
+            hm = Main.createPeople(Main.getList(IOU));
         }
 
         //outputs all the results//
