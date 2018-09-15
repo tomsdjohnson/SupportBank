@@ -1,9 +1,6 @@
 package training.supportbank;
 
 //everything we need toAccount import//
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
@@ -13,12 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main {
 
@@ -42,11 +35,8 @@ public class Main {
         HashMap<String, Person> hm;
 
         if (fileLocation.equals("Transactions2013.json")) {
-            //Creates an Array with all transactions and then converted into arrayList and then sent to createPerson//
-            Gson gson = buildGson();
-            Transaction[] transaction = gson.fromJson(IOU, Transaction[].class);
-            ArrayList<Transaction> transactionList = new ArrayList<>(Arrays.asList(transaction));
-            hm = Main.createPeople(transactionList);
+            //send the array to create people//
+            hm = Main.createPeople(JsonReader.readJson(IOU));
 
         }else if(fileLocation.equals("Transactions2012.xml")){
             //calls XmlReader if they have called the Xml file
@@ -54,63 +44,13 @@ public class Main {
 
         }else {
             //creates an array of transactions and then puts it in person//
-            hm = Main.createPeople(Main.getList(IOU));
+            hm = Main.createPeople(CvsReader.readCvs(IOU));
         }
 
         //outputs all the results//
         Output output = new Output();
         output.printOutputs(hm);
         }
-
-
-    //loading and converting fromAccount Json into java objects//
-    private static Gson buildGson() {
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>) (jsonElement, type, jsonDeserializationContext) ->
-                LocalDate.parse(jsonElement.getAsString())
-        );
-        return gsonBuilder.create();
-    }
-
-
-
-    //new class creates transactions//
-    private static ArrayList getList(String newIOU) {
-
-        //stores the string//
-        String IOU = newIOU;
-
-        //creates search algorithm that gets individual details//
-        Pattern p = Pattern.compile("(.*),(.*),(.*),(.*),(.*)");
-        Matcher m = p.matcher(IOU);
-
-        //create an Array list to store the Transactions//
-        ArrayList<Transaction> list = new ArrayList<>();
-
-        //this finds the first line of the file so it ignores later on//
-        m.find();
-
-        //while loop until all details have been found//
-        while(m.find()) {
-
-            //creating variables for all the details//
-            String date = m.group(1);
-            String from = m.group(2);
-            String to = m.group(3);
-            String amount = m.group(5);
-            String reason = m.group(4);
-
-            //creating a variable for the transaction and adds it to list//
-            Transaction trans = new Transaction(from, date, to, reason, amount);
-            list.add(trans);
-        }
-
-        //returns the array full of transactions//
-        return list;
-
-    }
-
 
 
     //this class creates the person and adds transactions//

@@ -85,7 +85,6 @@ public class XmlReader {
         double min =(hour - (long)hour) * 60;
         double sec=(min- (long)min) * 60;
 
-
         SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date baseDate = myFormat.parse("30/12/1899");
         Calendar c = Calendar.getInstance();
@@ -96,7 +95,6 @@ public class XmlReader {
         c.add(Calendar.SECOND,(int)sec);
 
         String time = myFormat.format(c.getTime());
-
 
         return time;
     }
